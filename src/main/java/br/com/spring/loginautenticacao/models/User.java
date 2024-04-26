@@ -2,6 +2,9 @@ package br.com.spring.loginautenticacao.models;
 
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import br.com.spring.loginautenticacao.dtos.LoginRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,4 +22,12 @@ public class User {
 
 	private String username;
 	private String password;
+
+	 public UUID getUserId() {
+	        return userId;
+	    }
+
+	public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
+		return passwordEncoder.matches(loginRequest.password(), this.password);
+	}
 }
