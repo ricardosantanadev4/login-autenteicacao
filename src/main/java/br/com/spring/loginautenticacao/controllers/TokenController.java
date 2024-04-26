@@ -41,7 +41,7 @@ public class TokenController {
 
 		var claims = JwtClaimsSet.builder().issuer("mybackend").subject(user.get().getUserId().toString()).issuedAt(now)
 				.expiresAt(now.plusSeconds(expiresIn)).build();
-		
+
 		var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
 		return ResponseEntity.ok(new LoginResponse(jwtValue, expiresIn));

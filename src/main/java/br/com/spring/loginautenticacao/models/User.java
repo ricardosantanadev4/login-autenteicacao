@@ -17,15 +17,36 @@ import jakarta.persistence.Table;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "user_id")
+
+	@Column(name = "userid")
 	private UUID userId;
 
 	private String username;
 	private String password;
 
-	 public UUID getUserId() {
-	        return userId;
-	    }
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUserId(UUID userId) {
+		this.userId = userId;
+	}
+
+	public UUID getUserId() {
+		return userId;
+	}
 
 	public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
 		return passwordEncoder.matches(loginRequest.password(), this.password);
