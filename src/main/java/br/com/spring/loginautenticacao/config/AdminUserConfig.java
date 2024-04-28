@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.spring.loginautenticacao.models.User;
 import br.com.spring.loginautenticacao.repositorys.UserRepository;
 
+// classe gerada para criar um usuario no banco de dados com o password criptografado a partir da chave privada
 @Configuration
 public class AdminUserConfig implements CommandLineRunner {
 
@@ -22,7 +23,7 @@ public class AdminUserConfig implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		var userAdmin = userRepository.findByUsername("admin");
+		var userAdmin = userRepository.findByUseremail("admin");
 		
 		userAdmin.ifPresentOrElse(
                 user -> {
@@ -30,7 +31,7 @@ public class AdminUserConfig implements CommandLineRunner {
                 },
                 () -> {
                     var user = new User();
-                    user.setUsername("admin");
+                    user.setUseremail("admin");
                     user.setPassword(passwordEncoder.encode("123"));
 //                    user.setRoles(Set.of(roleAdmin));
                     userRepository.save(user);

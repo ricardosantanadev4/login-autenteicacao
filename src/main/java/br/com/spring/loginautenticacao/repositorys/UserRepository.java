@@ -11,6 +11,6 @@ import br.com.spring.loginautenticacao.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-	Optional<User> findByUsername(String username);
+	Optional<User> findByUseremail(String useremail);
 
 }

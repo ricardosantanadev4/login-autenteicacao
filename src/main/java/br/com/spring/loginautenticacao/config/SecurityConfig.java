@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -34,18 +35,20 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/login").permitAll()
-				.anyRequest().authenticated()).csrf(csrf -> csrf.disable())
+		http.authorizeHttpRequests(authorize -> authorize.requestMatchers(HttpMethod.POST, "/api/token/login")
+				.permitAll().anyRequest().authenticated()).csrf(csrf -> csrf.disable())
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		return http.build();
 	}
 
+//	descriptografa o token jwt quando ele for recebido na requizicao
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		return NimbusJwtDecoder.withPublicKey(publicKey).build();
 	}
 
+//	criptografa o token jwt
 	@Bean
 	public JwtEncoder jwtEncoder() {
 		JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(privateKey).build();
@@ -53,6 +56,7 @@ public class SecurityConfig {
 		return new NimbusJwtEncoder(jwks);
 	}
 
+//  utilizado para comparar as senhas
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

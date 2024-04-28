@@ -21,15 +21,15 @@ public class User {
 	@Column(name = "userid")
 	private UUID userId;
 
-	private String username;
+	private String useremail;
 	private String password;
 
-	public String getUsername() {
-		return username;
+	public String getUseremail() {
+		return useremail;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUseremail(String useremail) {
+		this.useremail = useremail;
 	}
 
 	public String getPassword() {
@@ -48,6 +48,8 @@ public class User {
 		return userId;
 	}
 
+//	criptografa o password enviado pelo usuario e compara a senha recebida com a senha do banco dedados
+//	depois retorna um true se as senhas estiverem iguais
 	public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
 		return passwordEncoder.matches(loginRequest.password(), this.password);
 	}
