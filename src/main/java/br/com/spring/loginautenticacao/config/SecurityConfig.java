@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -27,6 +26,8 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+//	referencia o caminho para encontrar as chaves e poder utilizalas para fazer o enconder e o decoder das informacoes
+//	@Value("${}") esta referenciando o aplication.properties
 	@Value("${jwt.public.key}")
 	private RSAPublicKey publicKey;
 	@Value("${jwt.private.key}")
@@ -42,6 +43,7 @@ public class SecurityConfig {
 		return http.build();
 	}
 
+//	cria um decoder a partir da chave publica
 //	descriptografa o token jwt quando ele for recebido na requizicao
 	@Bean
 	public JwtDecoder jwtDecoder() {
